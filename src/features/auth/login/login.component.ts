@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../auth-service';
 import { HttpClientModule } from '@angular/common/http';
 import { User } from '../../model/user.model';
+import { AuthService } from '../../../core/services/auth/auth.service';
 
 @Component({
   selector: 'app-login.component',
@@ -44,14 +44,16 @@ export class LoginComponent implements OnInit {
 
     const { username, password } = this.loginForm.value;
 
-    const loggedInUser = this.authService.login(username, password) as User | null;
-    
-    if (loggedInUser) {
-      this.router.navigate(['/']);
-      localStorage.setItem('token', loggedInUser.token);
-    } else {
-      this.errorMessage = 'Invalid username or password';
-    }
+    this.authService.login(username, password).subscribe({
+      next: (user: User) => {
+        this.isLoading = false;
+        this.router.navigate(['/']);
+      },
+      error: (error) => {
+        this.errorMessage = 'Invalid username or password';
+        this.isLoading = false;
+      }
+    });
   }
 
   isFieldInvalid(fieldName: string): boolean {
@@ -61,7 +63,7 @@ export class LoginComponent implements OnInit {
 
   navigateToRegister(event: Event): void {
     event.preventDefault();
-    this.router.navigate(['/auth/register']);
+    this.router.navigate(['/']);
   }
 }
 
