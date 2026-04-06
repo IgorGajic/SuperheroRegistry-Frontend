@@ -1,1 +1,70 @@
-<p>login.component works!</p>
+<div class="login-container">
+  <div class="login-wrapper">
+    <div class="card bg-dark border-secondary login-card">
+      <div class="card-body">
+        <h2 class="card-title text-center text-light mb-4">Login</h2>
+
+        <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+          {{ errorMessage }}
+        </div>
+
+        <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+          <div class="mb-3">
+            <label for="username" class="form-label text-light">Username</label>
+            <input
+              type="text"
+              class="form-control bg-dark border-secondary text-light"
+              id="username"
+              formControlName="username"
+              placeholder="Enter your username"
+              [class.is-invalid]="isFieldInvalid('username')"
+            />
+            <div class="invalid-feedback" *ngIf="isFieldInvalid('username')">
+              <span *ngIf="loginForm.get('username')?.errors?.['required']">
+                Username is required
+              </span>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="password" class="form-label text-light">Password</label>
+            <input
+              type="password"
+              class="form-control bg-dark border-secondary text-light"
+              id="password"
+              formControlName="password"
+              placeholder="Enter your password"
+              [class.is-invalid]="isFieldInvalid('password')"
+            />
+            <div class="invalid-feedback" *ngIf="isFieldInvalid('password')">
+              <span *ngIf="loginForm.get('password')?.errors?.['required']">
+                Password is required
+              </span>
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            class="btn btn-primary w-100 mb-3"
+            [disabled]="loginForm.invalid || isLoading"
+          >
+            <span *ngIf="!isLoading">Login</span>
+            <span *ngIf="isLoading">
+              <span
+                class="spinner-border spinner-border-sm me-2"
+                role="status"
+                aria-hidden="true"
+              ></span>
+              Logging in...
+            </span>
+          </button>
+        </form>
+
+        <p class="text-center text-light mt-3">
+          Don't have an account?
+          <a href="#" class="link-primary" (click)="navigateToRegister($event)">Register here</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
