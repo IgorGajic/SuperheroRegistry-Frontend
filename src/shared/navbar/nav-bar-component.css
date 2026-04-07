@@ -1,0 +1,17 @@
+.navbar-collapse {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.navbar-collapse .navbar-nav:first-of-type {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+}
+
+.navbar-collapse .navbar-nav:last-of-type {
+  margin-left: auto;
+}

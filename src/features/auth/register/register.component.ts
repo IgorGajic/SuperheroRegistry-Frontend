@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
-import { User } from '../../model/user.model';
+import { User } from '../../../model/user.model';
 import { AuthService } from '../../../core/services/auth/auth.service';
 
 @Component({
@@ -98,6 +98,6 @@ export class RegisterComponent implements OnInit {
 
   navigateToLogin(event: Event): void {
     event.preventDefault();
-    this.router.navigate(['/auth/login']);
+    this.router.navigate(['/login']);
   }
 }

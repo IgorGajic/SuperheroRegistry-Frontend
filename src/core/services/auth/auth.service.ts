@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../enviroments/enviroment';
 import { Observable, map, tap } from 'rxjs';
-import { User } from '../../../features/model/user.model';
+import { type User } from '../../../model/user.model';
 
 export interface AuthResponseDto {
   token: string;

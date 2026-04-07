@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth/auth.service';
-import { type User } from '../../features/model/user.model';
+import { type User } from '../../model/user.model';
 
 @Component({
   selector: 'app-navbar',
@@ -32,5 +32,9 @@ export class NavBarComponent {
 
   get loggedUser(): User | null {
     return this.authService.getLoggedUser();
+  }
+
+  onMyHeroes() {
+    this.navigateTo('/my-heroes');
   }
 }
