@@ -4,6 +4,7 @@ import { RegisterComponent } from '../features/auth/register/register.component'
 import { LangingPageComponent } from '../features/auth/landing/langing-page.component';
 import { MyHeroesComponent } from '../features/my-heroes/my-heroes-component';
 import { HomeComponent } from '../features/home/home.component';
+import { AuthGuard } from '../core/guards/auth.guard';
 
 export const routes: Routes = [
     {
@@ -24,6 +25,7 @@ export const routes: Routes = [
     },
     {
         path: 'my-heroes',
-        component: MyHeroesComponent
+        component: MyHeroesComponent,
+        canActivate: [AuthGuard]
     }
 ];
