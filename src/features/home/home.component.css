@@ -153,6 +153,7 @@
   font-size: 0.9rem;
   display: -webkit-box;
   -webkit-line-clamp: 3;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -202,7 +203,7 @@
   .heroes-grid { grid-template-columns: 1fr; gap: 15px; }
   .hero-card { padding: 15px; }
   .hero-title h3 { font-size: 1.1rem; }
-  .hero-origin { font-size: 0.85rem; -webkit-line-clamp: 2; }
+  .hero-origin { font-size: 0.85rem; -webkit-line-clamp: 2; line-clamp: 2; }
   .meta-item { font-size: 0.8rem; }
   .power-tag { font-size: 0.7rem; padding: 3px 8px; }
 }

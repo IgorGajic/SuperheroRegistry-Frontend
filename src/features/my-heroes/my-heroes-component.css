@@ -222,6 +222,7 @@
   font-size: 0.9rem;
   display: -webkit-box;
   -webkit-line-clamp: 3;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -369,6 +370,7 @@
   .hero-origin {
     font-size: 0.85rem;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
   }
   .action-btn {
     flex: 1;
