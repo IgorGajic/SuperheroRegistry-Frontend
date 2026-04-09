@@ -2,7 +2,7 @@ import { Power } from './power.model';
 
 export interface Hero {
     id: number;
-    codeName: string;
+    codename: string;
     originStory: string;
     race: string;
     alignment: string;

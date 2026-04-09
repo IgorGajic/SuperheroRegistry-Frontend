@@ -1,0 +1,208 @@
+/* Color Variables */
+:host {
+  --dark-bg: rgba(45, 45, 45, 0.8);
+  --dark-bg-light: rgba(45, 45, 45, 0.6);
+  --text-light: #e0e0e0;
+  --text-secondary: #b0b0b0;
+  --text-light-muted: #d0d0d0;
+  --border-light: 1px solid rgba(255, 255, 255, 0.1);
+  --border-light-hover: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.heroes-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+/* Header */
+.heroes-header {
+  text-align: center;
+  margin-bottom: 50px;
+  background-color: var(--dark-bg-light);
+  backdrop-filter: blur(10px);
+  padding: 30px;
+  border-radius: 12px;
+  border: var(--border-light);
+}
+
+.heroes-header h1 {
+  font-size: 2.5rem;
+  color: var(--text-light);
+  margin: 0 0 10px 0;
+  font-weight: 700;
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+/* Loading State */
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  gap: 20px;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(233, 69, 96, 0.5);
+  border-top-color: #e94560;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading p {
+  color: var(--text-light-muted);
+  font-size: 1.1rem;
+}
+
+/* Error State */
+.error-message {
+  background-color: rgba(244, 67, 54, 0.15);
+  border-left: 4px solid #ef5350;
+  padding: 20px;
+  border-radius: 4px;
+  margin-bottom: 30px;
+}
+
+.error-message p {
+  color: #ef5350;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  background: var(--dark-bg-light);
+  border-radius: 8px;
+  border: var(--border-light);
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+}
+
+/* Heroes Grid */
+.heroes-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 25px;
+}
+
+/* Hero Card */
+.hero-card {
+  background-color: var(--dark-bg);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: all 0.3s ease;
+  border: var(--border-light);
+}
+
+.hero-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+  border: var(--border-light-hover);
+}
+
+.hero-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.hero-title h3 {
+  margin: 0;
+  color: var(--text-light);
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.meta-item {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.hero-origin {
+  color: var(--text-light-muted);
+  line-height: 1.5;
+  margin: 0;
+  font-size: 0.9rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Powers */
+.powers-preview {
+  margin-top: 10px;
+}
+
+.powers-preview strong {
+  color: var(--text-light);
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+}
+
+.powers-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.power-tag {
+  background: rgba(100, 181, 246, 0.15);
+  color: #64b5f6;
+  padding: 4px 10px;
+  border-radius: 16px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .heroes-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .heroes-container { padding: 20px 15px; }
+  .heroes-header h1 { font-size: 1.8rem; }
+  .heroes-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .hero-title h3 { font-size: 1.2rem; }
+}
+
+@media (max-width: 480px) {
+  .heroes-container { padding: 15px 10px; }
+  .heroes-header h1 { font-size: 1.5rem; }
+  .heroes-grid { grid-template-columns: 1fr; gap: 15px; }
+  .hero-card { padding: 15px; }
+  .hero-title h3 { font-size: 1.1rem; }
+  .hero-origin { font-size: 0.85rem; -webkit-line-clamp: 2; }
+  .meta-item { font-size: 0.8rem; }
+  .power-tag { font-size: 0.7rem; padding: 3px 8px; }
+}

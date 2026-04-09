@@ -1,1 +1,88 @@
-<p>my-heroes-component works!</p>
+<div class="my-heroes-container">
+  <!-- Header -->
+  <div class="heroes-header">
+    <div class="header-content">
+      <h1>My Heroes</h1>
+      <p class="subtitle">Manage your superhero collection</p>
+    </div>
+    <button class="btn btn-primary" (click)="onCreateHero()">Create New Hero</button>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading">
+    <div class="spinner"></div>
+    <p>Loading your heroes...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !loading" class="error-message">
+    <p>{{ error }}</p>
+  </div>
+
+  <!-- Heroes List -->
+  <div *ngIf="!loading && !error" class="heroes-list">
+    <!-- Empty State -->
+    <div *ngIf="heroes.length === 0" class="empty-state">
+      <p>You haven't created any heroes yet.</p>
+      <button class="btn btn-primary" (click)="onCreateHero()">Create Your First Hero</button>
+    </div>
+
+    <!-- Hero Table/Cards -->
+    <div *ngFor="let hero of heroes" class="hero-row">
+      <div class="hero-info">
+        <div class="hero-title">
+          <h3>{{ hero.codename }}</h3>
+          <span [ngClass]="'status-badge status-' + hero.status.toLowerCase()">
+            {{ hero.status }}
+          </span>
+        </div>
+        <div class="hero-meta">
+          <span class="meta-item">🧬 {{ hero.race }}</span>
+          <span class="meta-item">⚖️ {{ hero.alignment }}</span>
+        </div>
+        <p class="hero-origin">{{ hero.originStory }}</p>
+        <div class="powers-preview">
+          <strong>Powers:</strong>
+          <div class="powers-tags">
+            <span *ngFor="let power of hero.powers" class="power-tag">
+              {{ power.name }}
+            </span>
+            <span *ngIf="hero.powers.length === 0" class="power-tag" style="color: #b0b0b0; background: rgba(255, 255, 255, 0.05);">
+              None yet
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-actions">
+        <button class="action-btn btn-edit" (click)="onEditHero(hero.id)" title="Edit hero">
+          Edit
+        </button>
+        <button 
+          *ngIf="canRegister(hero)" 
+          class="action-btn btn-register" 
+          (click)="onRegisterHero(hero.id)"
+          title="Register hero"
+        >
+          Register
+        </button>
+        <button 
+          *ngIf="canRetire(hero)" 
+          class="action-btn btn-retire" 
+          (click)="onRetireHero(hero.id)"
+          title="Retire hero"
+        >
+          Retire
+        </button>
+        <button 
+          *ngIf="canDelete(hero)" 
+          class="action-btn btn-delete" 
+          (click)="onDeleteHero(hero.id)"
+          title="Delete hero"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

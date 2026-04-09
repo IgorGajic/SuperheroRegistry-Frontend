@@ -1,0 +1,51 @@
+<div class="heroes-container">
+  <!-- Header -->
+  <div class="heroes-header">
+    <h1>Registered Heroes</h1>
+    <p class="subtitle">Discover the heroes protecting our realm</p>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading">
+    <div class="spinner"></div>
+    <p>Loading heroes...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !loading" class="error-message">
+    <p>{{ error }}</p>
+  </div>
+
+  <!-- Heroes Grid -->
+  <div *ngIf="!loading && !error" class="heroes-grid">
+    <!-- Empty State -->
+    <div *ngIf="heroes.length === 0" class="empty-state">
+      <p>No registered heroes found.</p>
+    </div>
+
+    <!-- Hero Cards -->
+    <div *ngFor="let hero of heroes" class="hero-card">
+      <div class="hero-info">
+        <div class="hero-title">
+          <h3>{{ hero.codename }}</h3>
+        </div>
+        <div class="hero-meta">
+          <span class="meta-item">{{ hero.race }}</span>
+          <span class="meta-item">{{ hero.alignment }}</span>
+        </div>
+        <p class="hero-origin">{{ hero.originStory }}</p>
+        <div class="powers-preview">
+          <strong>Powers:</strong>
+          <div class="powers-tags">
+            <span *ngFor="let power of hero.powers" class="power-tag">
+              {{ power.name }}
+            </span>
+            <span *ngIf="hero.powers.length === 0" class="power-tag" style="color: #b0b0b0; background: rgba(255, 255, 255, 0.05);">
+              None
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

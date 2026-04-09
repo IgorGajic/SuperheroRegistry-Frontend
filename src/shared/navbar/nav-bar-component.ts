@@ -18,7 +18,7 @@ export class NavBarComponent {
   }
   
   onHome(){
-    this.navigateTo('/');
+    this.navigateTo('/home');
   }
 
   onLogin() {

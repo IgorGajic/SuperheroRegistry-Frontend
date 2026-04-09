@@ -65,7 +65,7 @@ export class RegisterComponent implements OnInit {
         this.isLoading = false;
         this.successMessage = 'Registration successful! Redirecting to home...';
         setTimeout(() => {
-          this.router.navigate(['']);
+          this.router.navigate(['/home']);
         }, 1000);
       },
       error: (error) => {

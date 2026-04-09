@@ -14,7 +14,7 @@ export class HeroService {
 
   constructor(private http: HttpClient) {}
 
-
+  
   getRegisteredHeroes(): Observable<Hero[]> {
     return this.http.get<Hero[]>(`${this.apiUrl}/public`);
   }
