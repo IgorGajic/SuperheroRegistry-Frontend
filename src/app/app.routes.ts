@@ -6,6 +6,7 @@ import { MyHeroesComponent } from '../features/heroes/my-heroes/my-heroes-compon
 import { HomeComponent } from '../features/home/home.component';
 import { AuthGuard } from '../core/guards/auth.guard';
 import { CreateHeroComponent } from '../features/heroes/create-hero.component/create-hero.component';
+import { EditHeroComponent } from '../features/heroes/edit-hero/edit-hero.component';
 
 export const routes: Routes = [
     {
@@ -32,6 +33,11 @@ export const routes: Routes = [
     {
         path: 'heroes/new',
         component: CreateHeroComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'heroes/:id/edit',
+        component: EditHeroComponent,
         canActivate: [AuthGuard]
     }
 ];

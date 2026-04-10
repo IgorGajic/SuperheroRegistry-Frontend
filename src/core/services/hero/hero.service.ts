@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../enviroments/enviroment';
 import { type Hero } from '../../../model/hero.model';
 import { type CreateHeroDto } from '../../../model/createHeroDto.model';
+import { type CreatePowerDto } from '../../../model/createPowerDto.model';
 
 
 @Injectable({
@@ -35,6 +36,10 @@ export class HeroService {
     return this.http.post<Hero>(this.apiUrl, dto);
   }
 
+  updateHero(id: number, dto: CreateHeroDto): Observable<Hero> {
+    return this.http.patch<Hero>(`${this.apiUrl}/${id}`, dto);
+  }
+
   registerHero(id: number): Observable<Hero> {
     return this.http.patch<Hero>(`${this.apiUrl}/${id}/register`, {});
   }
@@ -45,5 +50,13 @@ export class HeroService {
 
   deleteHero(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  addPower(heroId: number, dto: CreatePowerDto): Observable<Hero> {
+    return this.http.post<Hero>(`${this.apiUrl}/${heroId}/powers`, dto);
+  }
+
+  removePower(heroId: number, powerId: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${heroId}/powers/${powerId}`);
   }
 }

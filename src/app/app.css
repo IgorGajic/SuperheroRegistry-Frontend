@@ -9,13 +9,13 @@
   display: block;
   width: 100%;
   height: 100%;
-  overflow: hidden;
+  overflow: auto;
 }
 
 .app-background {
   width: 100%;
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
+  overflow: auto;
   background-image: url('/assets/background.jpg');
   background-size: cover;
   background-position: center;

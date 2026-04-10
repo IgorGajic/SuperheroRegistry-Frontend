@@ -1,0 +1,80 @@
+<div class="manage-powers-container">
+  <h3>Manage Powers</h3>
+
+  <!-- Success Message -->
+  <div *ngIf="successMessage" class="alert alert-success" role="alert">
+    {{ successMessage }}
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Add Power Form -->
+  <form [formGroup]="powerForm" (ngSubmit)="onAddPower()" class="add-power-form">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="powerName" class="form-label">Power Name</label>
+        <input
+          type="text"
+          class="form-control bg-dark border-secondary text-light"
+          id="powerName"
+          formControlName="name"
+          placeholder="Enter power name"
+          [class.is-invalid]="isFieldInvalid('name')"
+        />
+        <div class="invalid-feedback" *ngIf="isFieldInvalid('name')">
+          {{ getFieldError('name') }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="powerDescription" class="form-label">Description</label>
+        <input
+          type="text"
+          class="form-control bg-dark border-secondary text-light"
+          id="powerDescription"
+          formControlName="description"
+          placeholder="Enter power description"
+          [class.is-invalid]="isFieldInvalid('description')"
+        />
+        <div class="invalid-feedback" *ngIf="isFieldInvalid('description')">
+          {{ getFieldError('description') }}
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        class="btn btn-primary add-power-btn"
+        [disabled]="powerForm.invalid || isAddingPower"
+      >
+        <span *ngIf="!isAddingPower">Add Power</span>
+        <span *ngIf="isAddingPower">Adding...</span>
+      </button>
+    </div>
+  </form>
+
+  <!-- Powers List -->
+  <div class="powers-list">
+    <h4>Current Powers</h4>
+    <div *ngIf="hero.powers.length === 0" class="no-powers">
+      No powers added yet
+    </div>
+
+    <div *ngFor="let power of hero.powers" class="power-item">
+      <div class="power-info">
+        <h5>{{ power.name }}</h5>
+        <p>{{ power.description }}</p>
+      </div>
+      <button
+        type="button"
+        class="btn btn-danger btn-sm"
+        (click)="onRemovePower(power.id)"
+        [disabled]="removingPowerId === power.id"
+      >
+        {{ removingPowerId === power.id ? 'Removing...' : 'Remove' }}
+      </button>
+    </div>
+  </div>
+</div>

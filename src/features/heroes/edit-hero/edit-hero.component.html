@@ -1,0 +1,149 @@
+<div class="edit-hero-container">
+  <div class="edit-hero-wrapper">
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="loading">
+      <div class="spinner"></div>
+      <p>Loading hero details...</p>
+    </div>
+
+    <!-- Content -->
+    <div *ngIf="!isLoading && hero" class="card bg-dark border-secondary edit-hero-card">
+      <div class="card-body">
+        <div class="header-section">
+          <h2 class="card-title text-center text-light mb-4">Edit Hero</h2>
+          <div class="hero-status">
+            <span [ngClass]="'status-badge status-' + hero.status.toLowerCase()">
+              {{ hero.status }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Success Message -->
+        <div *ngIf="successMessage" class="alert alert-success" role="alert">
+          {{ successMessage }}
+        </div>
+
+        <!-- Error Message -->
+        <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+          {{ errorMessage }}
+        </div>
+
+        <form [formGroup]="heroForm" (ngSubmit)="onSaveHero()">
+          <!-- Codename Field -->
+          <div class="mb-3">
+            <label for="codename" class="form-label text-light">Hero Codename</label>
+            <input
+              type="text"
+              class="form-control bg-dark border-secondary text-light"
+              id="codename"
+              formControlName="codename"
+              placeholder="Enter hero codename"
+              [class.is-invalid]="isFieldInvalid('codename')"
+            />
+            <div class="invalid-feedback" *ngIf="isFieldInvalid('codename')">
+              {{ getFieldError('codename') }}
+            </div>
+          </div>
+
+          <!-- Origin Story Field -->
+          <div class="mb-3">
+            <label for="originStory" class="form-label text-light">Origin Story</label>
+            <textarea
+              class="form-control bg-dark border-secondary text-light"
+              id="originStory"
+              formControlName="originStory"
+              placeholder="Tell the hero's origin story (10-1000 characters)"
+              rows="5"
+              [class.is-invalid]="isFieldInvalid('originStory')"
+            ></textarea>
+            <div class="invalid-feedback" *ngIf="isFieldInvalid('originStory')">
+              {{ getFieldError('originStory') }}
+            </div>
+          </div>
+
+          <!-- Race Field -->
+          <div class="mb-3">
+            <label for="race" class="form-label text-light">Race</label>
+            <select
+              class="form-control bg-dark border-secondary text-light"
+              id="race"
+              formControlName="race"
+              [class.is-invalid]="isFieldInvalid('race')"
+            >
+              <option value="" disabled selected>Select a race</option>
+              <option *ngFor="let race of raceOptions" [value]="race">{{ race }}</option>
+            </select>
+            <div class="invalid-feedback" *ngIf="isFieldInvalid('race')">
+              {{ getFieldError('race') }}
+            </div>
+          </div>
+
+          <!-- Alignment Field -->
+          <div class="mb-3">
+            <label for="alignment" class="form-label text-light">Alignment</label>
+            <select
+              class="form-control bg-dark border-secondary text-light"
+              id="alignment"
+              formControlName="alignment"
+              [class.is-invalid]="isFieldInvalid('alignment')"
+            >
+              <option value="" disabled selected>Select alignment</option>
+              <option *ngFor="let align of alignmentOptions" [value]="align">{{ align }}</option>
+            </select>
+            <div class="invalid-feedback" *ngIf="isFieldInvalid('alignment')">
+              {{ getFieldError('alignment') }}
+            </div>
+          </div>
+
+          <!-- Form Actions -->
+          <div class="form-actions">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="heroForm.invalid || isSaving || isDeleting"
+            >
+              <span *ngIf="!isSaving">Save Changes</span>
+              <span *ngIf="isSaving">Saving...</span>
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              (click)="navigateBack()"
+              [disabled]="isSaving || isDeleting"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              class="btn btn-danger"
+              (click)="onDeleteHero()"
+              [disabled]="isDeleting || isSaving"
+            >
+              <span *ngIf="!isDeleting">Delete Hero</span>
+              <span *ngIf="isDeleting">Deleting...</span>
+            </button>
+          </div>
+        </form>
+
+        <!-- Manage Powers Component -->
+        <app-manage-powers
+          *ngIf="hero"
+          [heroId]="heroId"
+          [hero]="hero"
+          [onPowersUpdated]="onPowersUpdated.bind(this)"
+        ></app-manage-powers>
+      </div>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="!isLoading && !hero && errorMessage" class="error-container">
+      <div class="card bg-dark border-secondary">
+        <div class="card-body">
+          <h3 class="text-light mb-3">Failed to Load Hero</h3>
+          <p class="text-light mb-3">{{ errorMessage }}</p>
+          <button class="btn btn-primary" (click)="navigateBack()">Go Back</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

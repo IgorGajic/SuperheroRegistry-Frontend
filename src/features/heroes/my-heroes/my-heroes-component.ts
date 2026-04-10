@@ -54,7 +54,7 @@ export class MyHeroesComponent implements OnInit {
   }
 
   onEditHero(heroId: number): void {
-    this.router.navigate(['/heroes/edit', heroId]);
+    this.router.navigate(['/heroes', heroId, 'edit']);
   }
 
   onRegisterHero(heroId: number): void {
