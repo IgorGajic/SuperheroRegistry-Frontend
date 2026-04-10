@@ -58,6 +58,7 @@
 .alert-danger {
   background-color: rgba(220, 53, 69, 0.2);
   border-color: rgba(220, 53, 69, 0.5);
+  color: #e0e0e0;
 }
 
 .invalid-feedback {

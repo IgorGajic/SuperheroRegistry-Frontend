@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -20,7 +20,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -47,11 +48,13 @@ export class LoginComponent implements OnInit {
     this.authService.login(username, password).subscribe({
       next: (user: User) => {
         this.isLoading = false;
+        this.cdr.detectChanges();
         this.router.navigate(['/home']);
       },
       error: (error) => {
         this.errorMessage = 'Invalid username or password';
         this.isLoading = false;
+        this.cdr.detectChanges();
       }
     });
   }
