@@ -1,0 +1,132 @@
+/* Color Variables */
+:host {
+  --dark-bg: rgba(45, 45, 45, 0.8);
+  --text-light: #e0e0e0;
+  --text-secondary: #b0b0b0;
+  --border-light: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.create-hero-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 20px;
+  min-height: calc(100vh - 56px);
+}
+
+.create-hero-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 600px;
+}
+
+.create-hero-card {
+  background-color: var(--dark-bg) !important;
+  backdrop-filter: blur(10px);
+  width: 100%;
+  max-width: 500px;
+}
+
+.form-control {
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-control:focus {
+  background-color: #2d2d2d;
+  border-color: #e94560;
+  color: var(--text-light);
+  box-shadow: 0 0 0 0.2rem rgba(233, 69, 96, 0.25);
+}
+
+.form-control::placeholder {
+  color: #777;
+  opacity: 0.8;
+}
+
+.form-control.is-invalid,
+.form-control.is-invalid:focus {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+textarea.form-control {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.invalid-feedback {
+  display: block;
+  color: #f8b1ba;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.checking-message {
+  color: #87ceeb;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  font-style: italic;
+}
+
+.alert-success {
+  background-color: rgba(40, 167, 69, 0.2);
+  border-color: rgba(40, 167, 69, 0.5);
+  color: #98ff98;
+}
+
+.alert-danger {
+  background-color: rgba(220, 53, 69, 0.2);
+  border-color: rgba(220, 53, 69, 0.5);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #e94560 0%, #c41e3a 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(233, 69, 96, 0.4);
+  border: none;
+  padding: 12px 24px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(233, 69, 96, 0.6);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background-color: var(--text-secondary);
+  color: #2d2d2d;
+  border: none;
+  padding: 12px 24px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background-color: var(--text-light);
+  transform: translateY(-2px);
+}
+
+.btn-secondary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 600px) {
+  .create-hero-container {
+    padding: 10px;
+  }
+
+  .create-hero-card {
+    max-width: 100%;
+  }
+}

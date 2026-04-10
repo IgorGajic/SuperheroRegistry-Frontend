@@ -35,6 +35,6 @@ export class NavBarComponent {
   }
 
   onMyHeroes() {
-    this.navigateTo('/my-heroes');
+    this.navigateTo('heroes/my-heroes');
   }
 }

@@ -1,8 +1,8 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { HeroService } from '../../core/services/hero/hero.service';
-import { Hero } from '../../model/hero.model';
+import { HeroService } from '../../../core/services/hero/hero.service';
+import { Hero } from '../../../model/hero.model';
 
 @Component({
   selector: 'app-my-heroes-component',
@@ -50,11 +50,11 @@ export class MyHeroesComponent implements OnInit {
   }
 
   onCreateHero(): void {
-    this.router.navigate(['/create-hero']);
+    this.router.navigate(['/heroes/new']);
   }
 
   onEditHero(heroId: number): void {
-    this.router.navigate(['/edit-hero', heroId]);
+    this.router.navigate(['/heroes/edit', heroId]);
   }
 
   onRegisterHero(heroId: number): void {
