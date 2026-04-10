@@ -25,7 +25,8 @@ export class MyHeroesComponent implements OnInit {
   private loadMyHeroes(): void {
     this.loading = true;
     this.error = null;
-    this.heroService.getAll().subscribe({
+
+    this.heroService.getMyHeroes().subscribe({
       next: (data) => {
         try {
           this.heroes = data.sort((a, b) => 

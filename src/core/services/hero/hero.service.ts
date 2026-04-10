@@ -28,6 +28,10 @@ export class HeroService {
     return this.http.get<Hero[]>(this.apiUrl);
   }
 
+  getMyHeroes(): Observable<Hero[]> {
+    return this.http.get<Hero[]>(`${this.apiUrl}/my-heroes`);
+  }
+
   getById(id: number): Observable<Hero> {
     return this.http.get<Hero>(`${this.apiUrl}/${id}`);
   }
