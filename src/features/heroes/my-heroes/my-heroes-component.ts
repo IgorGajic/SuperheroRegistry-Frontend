@@ -99,14 +99,19 @@ export class MyHeroesComponent implements OnInit {
   }
 
   canRegister(hero: Hero): boolean {
-    return hero.status === 'Draft';
+    return hero.status ? hero.status === 'Draft' : false;
   }
 
   canRetire(hero: Hero): boolean {
-    return hero.status === 'Registered';
+    return hero.status ? hero.status === 'Registered' : false;
   }
 
   canDelete(hero: Hero): boolean {
-    return hero.status === 'Draft';
+    return hero.status ? hero.status === 'Draft' : false;
+  }
+
+  getStatusClass(status: any): string {
+    if (!status) return '';
+    return String(status).toLowerCase();
   }
 }

@@ -99,7 +99,7 @@ export class EditHeroComponent implements OnInit {
         this.hero = updatedHero;
         this.cdr.detectChanges();
         setTimeout(() => {
-          this.router.navigate(['/my-heroes']);
+          this.router.navigate(['/heroes/my-heroes']);
         }, 1500);
       },
       error: (error: any) => {
@@ -123,7 +123,7 @@ export class EditHeroComponent implements OnInit {
     this.heroService.deleteHero(this.heroId).subscribe({
       next: () => {
         this.isDeleting = false;
-        this.router.navigate(['/my-heroes']);
+        this.router.navigate(['/heroes/my-heroes']);
       },
       error: (error: any) => {
         this.errorMessage = error.error?.message || 'Failed to delete hero. Please try again.';
@@ -180,6 +180,11 @@ export class EditHeroComponent implements OnInit {
   }
 
   navigateBack(): void {
-    this.router.navigate(['/my-heroes']);
+    this.router.navigate(['/heroes/my-heroes']);
+  }
+
+  getStatusClass(): string {
+    if (!this.hero || !this.hero.status) return '';
+    return String(this.hero.status).toLowerCase();
   }
 }

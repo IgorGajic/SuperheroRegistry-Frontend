@@ -26,7 +26,6 @@
               placeholder="Enter hero codename"
               [class.is-invalid]="isFieldInvalid('codename')"
               (blur)="onCodenameChange()"
-              [disabled]="isLoading"
             />
             <div class="invalid-feedback" *ngIf="isFieldInvalid('codename')">
               {{ getFieldError('codename') }}
@@ -49,7 +48,6 @@
               placeholder="Tell the hero's origin story (10-1000 characters)"
               rows="5"
               [class.is-invalid]="isFieldInvalid('originStory')"
-              [disabled]="isLoading"
             ></textarea>
             <div class="invalid-feedback" *ngIf="isFieldInvalid('originStory')">
               {{ getFieldError('originStory') }}
@@ -64,7 +62,6 @@
               id="race"
               formControlName="race"
               [class.is-invalid]="isFieldInvalid('race')"
-              [disabled]="isLoading"
             >
               <option value="" disabled selected>Select a race</option>
               <option *ngFor="let race of raceOptions" [value]="race">{{ race }}</option>
@@ -82,7 +79,6 @@
               id="alignment"
               formControlName="alignment"
               [class.is-invalid]="isFieldInvalid('alignment')"
-              [disabled]="isLoading"
             >
               <option value="" disabled selected>Select alignment</option>
               <option *ngFor="let align of alignmentOptions" [value]="align">{{ align }}</option>

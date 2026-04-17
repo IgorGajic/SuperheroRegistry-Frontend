@@ -4,6 +4,7 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 import { Router } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { HeroService } from '../../../core/services/hero/hero.service';
+import { AuthService } from '../../../core/services/auth/auth.service';
 import { CreateHeroDto } from '../../../model/createHeroDto.model';
 import { Alignment } from '../../../model/alignment.enum';
 import { Race } from '../../../model/race.enum';
@@ -28,6 +29,7 @@ export class CreateHeroComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private heroService: HeroService,
+    private authService: AuthService,
     private router: Router
   ) {}
 
@@ -71,25 +73,51 @@ export class CreateHeroComponent implements OnInit {
     }
 
     this.isLoading = true;
+    this.disableForm();
     this.errorMessage = null;
     this.successMessage = null;
 
-    const createHeroDto: CreateHeroDto = this.heroForm.value;
+    const user = this.authService.getLoggedUser();
+    
+    if (!user || !user.id) {
+      this.errorMessage = 'User not authenticated or missing user ID. Please log in again.';
+      this.isLoading = false;
+      this.enableForm();
+      return;
+    }
+
+    const createHeroDto: CreateHeroDto = {
+      userId: user.id,
+      codename: this.heroForm.get('codename')?.value,
+      originStory: this.heroForm.get('originStory')?.value,
+      race: this.heroForm.get('race')?.value,
+      alignment: this.heroForm.get('alignment')?.value,
+    };
 
     this.heroService.createHero(createHeroDto).subscribe({
       next: (hero) => {
         this.isLoading = false;
+        this.enableForm();
         this.successMessage = `Hero "${hero.codename}" created successfully!`;
         this.heroForm.reset();
         setTimeout(() => {
-          this.router.navigate(['/my-heroes']);
+          this.router.navigate(['/heroes/my-heroes']);
         }, 1500);
       },
       error: (error) => {
         this.errorMessage = error.error?.message || 'Failed to create hero. Please try again.';
         this.isLoading = false;
+        this.enableForm();
       },
     });
+  }
+
+  private disableForm(): void {
+    this.heroForm.disable();
+  }
+
+  private enableForm(): void {
+    this.heroForm.enable();
   }
 
   isFieldInvalid(fieldName: string): boolean {
@@ -119,6 +147,6 @@ export class CreateHeroComponent implements OnInit {
 
   navigateToMyHeroes(event: Event): void {
     event.preventDefault();
-    this.router.navigate(['/my-heroes']);
+    this.router.navigate(['/heroes/my-heroes']);
   }
 }

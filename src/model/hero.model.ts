@@ -6,7 +6,7 @@ export interface Hero {
     originStory: string;
     race: string;
     alignment: string;
-    status: string;
+    status?: string;
     userId: string;
-    powers: Power[];
+    powers?: Power[];
 }

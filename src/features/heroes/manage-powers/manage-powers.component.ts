@@ -1,9 +1,11 @@
-import { Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HeroService } from '../../../core/services/hero/hero.service';
 import { Hero } from '../../../model/hero.model';
 import { CreatePowerDto } from '../../../model/createPowerDto.model';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-manage-powers',
@@ -11,8 +13,9 @@ import { CreatePowerDto } from '../../../model/createPowerDto.model';
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './manage-powers.component.html',
   styleUrl: './manage-powers.component.css',
+  changeDetection: ChangeDetectionStrategy.Default,
 })
-export class ManagePowersComponent implements OnInit {
+export class ManagePowersComponent implements OnInit, OnDestroy {
   @Input() heroId!: number;
   @Input() hero!: Hero;
   @Input() onPowersUpdated!: (hero: Hero) => void;
@@ -23,6 +26,7 @@ export class ManagePowersComponent implements OnInit {
   errorMessage: string | null = null;
   successMessage: string | null = null;
   removingPowerId: number | null = null;
+  private destroy$ = new Subject<void>();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -34,11 +38,23 @@ export class ManagePowersComponent implements OnInit {
     this.initializeForm();
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   private initializeForm(): void {
     this.powerForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
       description: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(300)]],
     });
+    
+    // Trigger change detection when form values change
+    this.powerForm.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.cdr.markForCheck();
+      });
   }
 
   onAddPower(): void {
@@ -47,7 +63,6 @@ export class ManagePowersComponent implements OnInit {
     }
 
     this.isAddingPower = true;
-    this.disableForm();
     this.errorMessage = null;
     this.successMessage = null;
 
@@ -56,10 +71,9 @@ export class ManagePowersComponent implements OnInit {
     this.heroService.addPower(this.heroId, powerDto).subscribe({
       next: (updatedHero: Hero) => {
         this.isAddingPower = false;
-        this.enableForm();
         this.successMessage = `Power "${powerDto.name}" added successfully!`;
         this.hero = updatedHero;
-        this.powerForm.reset();
+        this.powerForm.reset({ name: '', description: '' });
         this.onPowersUpdated(updatedHero);
         this.cdr.detectChanges();
         setTimeout(() => {
@@ -70,7 +84,6 @@ export class ManagePowersComponent implements OnInit {
       error: (error: any) => {
         this.errorMessage = error.error?.message || 'Failed to add power. Please try again.';
         this.isAddingPower = false;
-        this.enableForm();
         this.cdr.detectChanges();
       },
     });
@@ -127,15 +140,7 @@ export class ManagePowersComponent implements OnInit {
     return fieldName.replace(/([A-Z])/g, ' $1').toLowerCase().replace(/^./, (str) => str.toUpperCase());
   }
 
-  private disableForm(): void {
-    Object.keys(this.powerForm.controls).forEach((key) => {
-      this.powerForm.get(key)?.disable();
-    });
-  }
-
-  private enableForm(): void {
-    Object.keys(this.powerForm.controls).forEach((key) => {
-      this.powerForm.get(key)?.enable();
-    });
+  get isAddButtonDisabled(): boolean {
+    return !this.powerForm || this.powerForm.invalid || this.isAddingPower;
   }
 }

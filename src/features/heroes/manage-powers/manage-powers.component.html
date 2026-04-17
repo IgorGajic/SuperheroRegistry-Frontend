@@ -47,7 +47,7 @@
       <button
         type="submit"
         class="btn btn-primary add-power-btn"
-        [disabled]="powerForm.invalid || isAddingPower"
+        [disabled]="isAddButtonDisabled"
       >
         <span *ngIf="!isAddingPower">Add Power</span>
         <span *ngIf="isAddingPower">Adding...</span>
@@ -58,11 +58,11 @@
   <!-- Powers List -->
   <div class="powers-list">
     <h4>Current Powers</h4>
-    <div *ngIf="hero.powers.length === 0" class="no-powers">
+    <div *ngIf="!hero.powers || hero.powers.length === 0" class="no-powers">
       No powers added yet
     </div>
 
-    <div *ngFor="let power of hero.powers" class="power-item">
+    <div *ngFor="let power of hero.powers || []" class="power-item">
       <div class="power-info">
         <h5>{{ power.name }}</h5>
         <p>{{ power.description }}</p>

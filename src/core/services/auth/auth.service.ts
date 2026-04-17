@@ -7,6 +7,7 @@ import { type User } from '../../../model/user.model';
 export interface AuthResponseDto {
   token: string;
   username: string;
+  userId?: string;
 }
 
 @Injectable({
@@ -16,7 +17,25 @@ export class AuthService {
   private readonly baseUrl = `${environment.apiUrl}/auth`;
   private loggedUser: User | null = null;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.loadUserFromStorage();
+  }
+
+  private loadUserFromStorage(): void {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      try {
+        this.loggedUser = JSON.parse(userJson);
+        // If user doesn't have an ID (old storage format), extract it from token
+        if (this.loggedUser && !this.loggedUser.id && this.loggedUser.token) {
+          this.loggedUser.id = this.extractUserIdFromToken(this.loggedUser.token);
+        }
+      } catch (error) {
+        console.error('Failed to parse user from localStorage:', error);
+        this.loggedUser = null;
+      }
+    }
+  }
 
   getLoggedUser(): User | null {
     return this.loggedUser;
@@ -32,7 +51,7 @@ export class AuthService {
         map((response) => this.mapToUser(response)),
         tap((user) => {
           this.loggedUser = user;
-          this.setLocalStorage(user.token);
+          this.saveUserToStorage(user);
         }),
       );
   }
@@ -46,7 +65,7 @@ export class AuthService {
       map((response) => this.mapToUser(response)),
       tap((user) => {
         this.loggedUser = user;
-        this.setLocalStorage(user.token);
+        this.saveUserToStorage(user);
       }),
     );
   }
@@ -57,10 +76,29 @@ export class AuthService {
   }
 
   private mapToUser(response: AuthResponseDto): User {
+    const userId = response.userId || this.extractUserIdFromToken(response.token);
     return {
+      id: userId,
       username: response.username,
       token: response.token,
     };
+  }
+
+  private extractUserIdFromToken(token: string): string {
+    try {
+      const payload = token.split('.')[1];
+      const decoded = JSON.parse(atob(payload));
+      // The user ID is stored in the "nameidentifier" claim
+      return decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'] || '';
+    } catch (error) {
+      console.error('Failed to extract user ID from token:', error);
+      return '';
+    }
+  }
+
+  private saveUserToStorage(user: User): void {
+    localStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem('token', user.token);
   }
 
   private setLocalStorage(token: string): void {
@@ -69,5 +107,6 @@ export class AuthService {
 
   private clearLocalStorage(): void {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
   }
 }

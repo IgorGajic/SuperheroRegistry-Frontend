@@ -32,7 +32,7 @@
       <div class="hero-info">
         <div class="hero-title">
           <h3>{{ hero.codename }}</h3>
-          <span [ngClass]="'status-badge status-' + hero.status.toLowerCase()">
+          <span *ngIf="hero.status" [ngClass]="'status-badge status-' + getStatusClass(hero.status)">
             {{ hero.status }}
           </span>
         </div>
@@ -44,10 +44,10 @@
         <div class="powers-preview">
           <strong>Powers:</strong>
           <div class="powers-tags">
-            <span *ngFor="let power of hero.powers" class="power-tag">
+            <span *ngFor="let power of hero.powers || []" class="power-tag">
               {{ power.name }}
             </span>
-            <span *ngIf="hero.powers.length === 0" class="power-tag" style="color: #b0b0b0; background: rgba(255, 255, 255, 0.05);">
+            <span *ngIf="!hero.powers || hero.powers.length === 0" class="power-tag" style="color: #b0b0b0; background: rgba(255, 255, 255, 0.05);">
               None yet
             </span>
           </div>

@@ -11,8 +11,8 @@
       <div class="card-body">
         <div class="header-section">
           <h2 class="card-title text-center text-light mb-4">Edit Hero</h2>
-          <div class="hero-status">
-            <span [ngClass]="'status-badge status-' + hero.status.toLowerCase()">
+          <div class="hero-status" *ngIf="hero.status">
+            <span [ngClass]="'status-badge status-' + getStatusClass()">
               {{ hero.status }}
             </span>
           </div>
