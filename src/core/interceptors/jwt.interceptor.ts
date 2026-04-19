@@ -15,7 +15,17 @@ export class JwtInterceptor implements HttpInterceptor {
     request: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
-    const token = localStorage.getItem('token');
+    const userJson = localStorage.getItem('user');
+    let token: string | null = null;
+
+    if (userJson) {
+      try {
+        const user = JSON.parse(userJson);
+        token = user.token;
+      } catch (error) {
+        console.error('Failed to parse user from localStorage:', error);
+      }
+    }
 
     if (token) {
       request = request.clone({

@@ -42,6 +42,10 @@ export class AuthService {
   }
 
   login(username: string, password: string): Observable<User> {
+    // Clear any previous session before attempting new login
+    this.clearLocalStorage();
+    this.loggedUser = null;
+    
     return this.http
       .post<AuthResponseDto>(`${this.baseUrl}/login`, {
         username,
@@ -98,15 +102,9 @@ export class AuthService {
 
   private saveUserToStorage(user: User): void {
     localStorage.setItem('user', JSON.stringify(user));
-    localStorage.setItem('token', user.token);
-  }
-
-  private setLocalStorage(token: string): void {
-    localStorage.setItem('token', token);
   }
 
   private clearLocalStorage(): void {
-    localStorage.removeItem('token');
     localStorage.removeItem('user');
   }
 }

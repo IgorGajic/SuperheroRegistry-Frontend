@@ -69,12 +69,12 @@ export class ManagePowersComponent implements OnInit, OnDestroy {
     const powerDto: CreatePowerDto = this.powerForm.value;
 
     this.heroService.addPower(this.heroId, powerDto).subscribe({
-      next: (updatedHero: Hero) => {
+      next: (newPower) => {
         this.isAddingPower = false;
         this.successMessage = `Power "${powerDto.name}" added successfully!`;
-        this.hero = updatedHero;
+        (this.hero.powers ??= []).push(newPower);
         this.powerForm.reset({ name: '', description: '' });
-        this.onPowersUpdated(updatedHero);
+        this.onPowersUpdated(this.hero);
         this.cdr.detectChanges();
         setTimeout(() => {
           this.successMessage = null;

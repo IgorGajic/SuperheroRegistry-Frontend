@@ -90,9 +90,13 @@ export class EditHeroComponent implements OnInit {
     this.errorMessage = null;
     this.successMessage = null;
 
-    const updateDto: CreateHeroDto = this.heroForm.value;
+    const updateDto = {
+      ...this.heroForm.value,
+      id: this.heroId,
+      userId: this.hero.userId,
+    };
 
-    this.heroService.updateHero(this.heroId, updateDto).subscribe({
+    this.heroService.updateHero(updateDto).subscribe({
       next: (updatedHero: Hero) => {
         this.isSaving = false;
         this.successMessage = `Hero "${updatedHero.codename}" updated successfully!`;

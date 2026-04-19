@@ -99,7 +99,9 @@ export class MyHeroesComponent implements OnInit {
   }
 
   canRegister(hero: Hero): boolean {
-    return hero.status ? hero.status === 'Draft' : false;
+    const isDraft = hero.status ? hero.status === 'Draft' : false;
+    const hasPowers = !!(hero.powers && hero.powers.length > 0);
+    return isDraft && hasPowers;
   }
 
   canRetire(hero: Hero): boolean {
