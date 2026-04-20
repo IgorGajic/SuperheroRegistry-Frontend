@@ -39,8 +39,8 @@ export class CreateHeroComponent implements OnInit {
 
   private initializeForm(): void {
     this.heroForm = this.formBuilder.group({
-      codename: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
-      originStory: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(1000)]],
+      codename: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(30)]],
+      originStory: ['', [Validators.required, Validators.minLength(30), Validators.maxLength(100)]],
       race: ['', [Validators.required]],
       alignment: ['', [Validators.required]],
     });

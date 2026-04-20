@@ -69,11 +69,11 @@ export class EditHeroComponent implements OnInit {
     this.heroForm = this.formBuilder.group({
       codename: [
         hero.codename,
-        [Validators.required, Validators.minLength(2), Validators.maxLength(50)],
+        [Validators.required, Validators.minLength(1), Validators.maxLength(30)],
       ],
       originStory: [
         hero.originStory,
-        [Validators.required, Validators.minLength(10), Validators.maxLength(1000)],
+        [Validators.required, Validators.minLength(30), Validators.maxLength(100)],
       ],
       race: [hero.race, [Validators.required]],
       alignment: [hero.alignment, [Validators.required]],

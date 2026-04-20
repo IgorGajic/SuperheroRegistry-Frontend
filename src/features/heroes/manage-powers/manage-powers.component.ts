@@ -45,8 +45,8 @@ export class ManagePowersComponent implements OnInit, OnDestroy {
 
   private initializeForm(): void {
     this.powerForm = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
-      description: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(300)]],
+      name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]],
+      description: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(500)]],
     });
     
     // Trigger change detection when form values change
